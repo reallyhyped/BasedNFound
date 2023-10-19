@@ -70,13 +70,22 @@ async def shutdown():
 
 @app.get("/notes/", response_model=List[Note])
 async def read_notes():
-    query = notes.select()
+    # query = notes.select()
+    query = """
+        SELECT * FROM base_table    
+    """
     return await database.fetch_all(query)
 
 
 @app.post("/notes/", response_model=Note)
 async def create_note(note: NoteIn):
     print(note)
-    query = notes.insert().values(text=note.text, boolean=note.boolean)
-    last_record_id = await database.execute(query)
+    # query = notes.insert().values(text=note.text, boolean=note.boolean)
+    query = """
+        INSERT INTO base_table (text, boolean)
+        VALUES (:text, :boolean)
+        RETURNING id    
+    """
+    values = {"text": note.text, "boolean": note.boolean}
+    last_record_id = await database.execute(query, values)
     return {**note.dict(), "id": last_record_id}
