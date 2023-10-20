@@ -9,3 +9,10 @@ Setup:
 Run the development server:
 
     uvicorn main:app --reload
+
+
+pgAdmin credentials:
+
+    pgadmin4@pgadmin.org
+
+    admin
