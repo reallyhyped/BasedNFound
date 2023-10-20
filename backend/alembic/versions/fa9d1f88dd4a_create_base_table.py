@@ -36,7 +36,7 @@ def upgrade() -> None:
         sa.Column("address", sa.String),
         sa.Column("city", sa.String),
         sa.Column("state", sa.String),
-        sa.Column("zipcode", sa.Integer)
+        sa.Column("zipcode", sa.Integer),
     )
 
     op.create_table(
@@ -47,7 +47,7 @@ def upgrade() -> None:
         sa.Column("phone_number", sa.CHAR(10)),
         sa.Column("username", sa.String),
         sa.Column("password", sa.String),
-        sa.Column("location_id", sa.Integer, sa.ForeignKey("location.id"))
+        sa.Column("location_id", sa.Integer, sa.ForeignKey("location.id"),)
     )
 
     op.create_table(
@@ -72,6 +72,7 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("status", sa.String),
         sa.Column("date", sa.DateTime),
+        sa.Column("description", sa.String),
         sa.Column("business_id", sa.Integer, sa.ForeignKey("business.id")),
         sa.Column("bnf_user_id", sa.Integer, sa.ForeignKey("bnf_user.id")),
     )
@@ -79,7 +80,6 @@ def upgrade() -> None:
     op.create_table(
         "item",
         sa.Column("id", sa.Integer, primary_key=True),
-        sa.Column("status", sa.String),
         sa.Column("name", sa.String),
         sa.Column("date", sa.DateTime),
         sa.Column("claim_id", sa.Integer, sa.ForeignKey("claim.id")),
@@ -89,15 +89,28 @@ def upgrade() -> None:
     op.create_table(
         "log",
         sa.Column("id", sa.Integer, primary_key=True),
-        sa.Column("item_id", sa.Integer, sa.ForeignKey("item.id")),
         sa.Column("date", sa.DateTime),
         sa.Column("description", sa.String),
         sa.Column("claim_id", sa.Integer, sa.ForeignKey("claim.id")),
     )
 
+    op.create_table(
+        "contain",
+        sa.Column("category_id", sa.Integer, sa.ForeignKey("category.id")),
+        sa.Column("item_id", sa.Integer, sa.ForeignKey("item.id")),
+    )
+
+    op.create_table(
+        "manage",
+        sa.Column("admin_id", sa.Integer, sa.ForeignKey("administrator.id")),
+        sa.Column("claim_id", sa.Integer, sa.ForeignKey("claim.id")),
+        sa.Column("business_id", sa.Integer, sa.ForeignKey("business.id")),
+    )
 
 
 def downgrade() -> None:
+    op.drop_table("manage")
+    op.drop_table("contain")
     op.drop_table("log")
     op.drop_table("item")
     op.drop_table("claim")
@@ -106,6 +119,5 @@ def downgrade() -> None:
     op.drop_table("administrator")
     op.drop_table("bnf_user")
     op.drop_table("location")
-
 
 
