@@ -89,3 +89,10 @@ async def create_note(note: NoteIn):
     values = {"text": note.text, "boolean": note.boolean}
     last_record_id = await database.execute(query, values)
     return {**note.dict(), "id": last_record_id}
+
+@app.get("/businesses/")
+async def read_businesses():
+    query = """
+        SELECT name, email, phone_number FROM business
+    """
+    return await database.fetch_all(query)
