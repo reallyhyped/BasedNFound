@@ -21,3 +21,16 @@ pgAdmin credentials:
     pgadmin4@pgadmin.org
 
     admin
+
+
+pgAdmin add server:
+
+    Add New Server
+    Name> database
+    Click Connection at the top
+    Host name/address > basednfound-db-1
+    Port > 5432
+    Username > basednfound_user
+    Password > password
+
+    Save
