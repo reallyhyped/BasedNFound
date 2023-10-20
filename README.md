@@ -14,3 +14,10 @@ If first run, need to set up the db table:
     docker exec -it basednfound-backend-1 bash
     alembic upgrade head
     exit
+
+
+pgAdmin credentials:
+
+    pgadmin4@pgadmin.org
+
+    admin
