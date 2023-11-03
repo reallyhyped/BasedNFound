@@ -3,9 +3,12 @@
 import { useSession } from "next-auth/react";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import DeleteUserButton from "../delete/button";
 
 export default function Form() {
   const { data: session } = useSession();
+  const username = session?.user?.name ?? "defaultUsername"; // Replace 'defaultUsername' with appropriate fallback
+
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -25,18 +28,21 @@ export default function Form() {
     router.refresh();
   };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-2 mx-auto max-w-md mt-10"
-    >
-      <input
-        name="password"
-        className="border border-black  text-black"
-        type="password"
-        placeholder="password"
-      />
+    <div>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-2 mx-auto max-w-md mt-10"
+      >
+        <input
+          name="password"
+          className="border border-black  text-black"
+          type="password"
+          placeholder="password"
+        />
 
-      <button type="submit">Change Password</button>
-    </form>
+        <button type="submit">Change Password</button>
+      </form>
+      <DeleteUserButton userId={username} />
+    </div>
   );
 }

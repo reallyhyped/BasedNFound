@@ -41,7 +41,7 @@ async def read_user(username: str, database = Depends(get_database)):
     else:
         raise HTTPException(status_code=404, detail="User not found")
 
-@router.delete("/{username}/")
+@router.delete("/{username}")
 async def delete_user(username: str, database = Depends(get_database)):
     find_query = "SELECT * FROM bnf_user WHERE username = :username"
     found_user = await database.fetch_one(find_query, {"username": username})
