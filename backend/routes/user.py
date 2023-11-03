@@ -9,6 +9,11 @@ router = APIRouter()
 
 @router.post("/", response_model=User)
 async def create_user(user: UserIn, database = Depends(get_database)):
+    find_query = "SELECT password FROM bnf_user WHERE username = :username"
+    found_user = await(database.fetch_one(find_query,{"username": user.username}))
+    if found_user:
+        raise HTTPException(status_code=409, detail="User already in database")
+
     query = """
         INSERT INTO bnf_user (username, password, first_name, last_name, email, phone_number)
         VALUES (:username, :password, :first_name, :last_name, :email, :phone_number)

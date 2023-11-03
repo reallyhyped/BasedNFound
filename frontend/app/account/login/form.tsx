@@ -1,27 +1,25 @@
-'use client';
+"use client";
 
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { FormEvent } from "react";
 
 export default function Form() {
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const response = await signIn('credentials', {
-      username: formData.get('username'),
-      password: formData.get('password'),
+    const response = await signIn("credentials", {
+      username: formData.get("username"),
+      password: formData.get("password"),
       redirect: false,
-    })
+    });
 
-    if (!response?.error){
-      router.push("/")
+    if (!response?.error) {
+      router.push("/");
       router.refresh();
     }
-
   };
-
 
   return (
     <form
@@ -32,11 +30,13 @@ export default function Form() {
         name="username"
         className="border border-black text-black"
         type="input"
+        placeholder="username"
       />
       <input
         name="password"
         className="border border-black  text-black"
         type="password"
+        placeholder="password"
       />
 
       <button type="submit">Login</button>

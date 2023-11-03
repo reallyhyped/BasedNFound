@@ -1,29 +1,27 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import { FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
+import { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Form() {
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    
 
     const response = await fetch(`/api/auth/update`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         username: session?.user?.name,
-        password: formData.get('password')
+        password: formData.get("password"),
       }),
     });
     console.log({ response });
 
-    router.push("/")
+    router.push("/");
     router.refresh();
   };
   return (
@@ -35,9 +33,8 @@ export default function Form() {
         name="password"
         className="border border-black  text-black"
         type="password"
-        placeholder='password'
+        placeholder="password"
       />
-
 
       <button type="submit">Change Password</button>
     </form>

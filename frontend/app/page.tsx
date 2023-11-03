@@ -1,10 +1,4 @@
-"use client"
-import SignInButton from "./components/SignInButton";
-import UserProfile from "./components/UserProfile";
+"use client";
 export default function Home() {
-  return (
-    <main>
-      <UserProfile/>
-    </main>)
-    ;
+  return <main>Hello</main>;
 }
