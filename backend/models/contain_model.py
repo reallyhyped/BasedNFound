@@ -1,13 +1,13 @@
 from pydantic import BaseModel, constr
 
-class Conatin(BaseModel):
+class Contain(BaseModel):
     category_id: int
     item_id: int
 
-class ConatinIn(BaseModel):
+class ContainIn(BaseModel):
     category_id: int
     item_id: int
 
-class ConatinUpdate(BaseModel):
+class ContainUpdate(BaseModel):
     category_id: int
     item_id: int
