@@ -37,6 +37,7 @@ const handler = NextAuth({
                 return{
                   name: data.username,
                   email: data.email,
+                  userType: "user"
                 }
               }
 
@@ -50,7 +51,21 @@ const handler = NextAuth({
         
           },
         })
-      ]
+      ],
+      callbacks: {
+        async jwt({ token, user }) {
+            // user is the object returned from the authorize function
+            if (user) {
+                token.userType = user.userType; // Add user type to the token
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            // Add the user type to the session
+            session.userType = token.userType;
+            return session;
+        }
+    }
 });
 
 export {handler as GET, handler as POST}
