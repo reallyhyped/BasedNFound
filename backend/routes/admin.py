@@ -7,7 +7,7 @@ admin_router = APIRouter()
 
 @admin_router.post("/", response_model=Admin)
 async def create_admin(admin: AdminIn, database=Depends(get_database)):
-    find_query = "SELECT password FROM admin WHERE username = :username"
+    find_query = "SELECT password FROM administrator WHERE username = :username"
     found_admin = await database.fetch_one(find_query, {"username": admin.username})
     if found_admin:
         raise HTTPException(status_code=409, detail="Admin already in database")
