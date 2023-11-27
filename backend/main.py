@@ -11,6 +11,10 @@ from db import connect_to_db, disconnect_from_db, get_database
 
 
 from routes.user import router as UserRouter
+from routes.business import router as BusinessRouter
+from routes.item import item_router as ItemRouter
+from routes.admin import admin_router as AdminRouter
+
 
 load_dotenv()
 
@@ -79,4 +83,9 @@ async def read_businesses():
         SELECT name, email, phone_number FROM business
     """
     return await database.fetch_all(query)
+
+app.include_router(BusinessRouter, tags=["Business"], prefix="/business")
+app.include_router(ItemRouter, tags=["Item"], prefix="/item")
+app.include_router(AdminRouter, tags=["Admin"], prefix="/admin")
+
 
