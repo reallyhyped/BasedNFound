@@ -1,18 +1,18 @@
 from pydantic import BaseModel, constr
 from datetime import datetime
 
-class Item(BaseModel):
+class Log(BaseModel):
     id: int
     date: datetime
     description: str
     claim_id: int    
 
-class ItemIn(BaseModel):
+class LogIn(BaseModel):
     date: datetime
     description: str
     claim_id: int    
 
-class ItemUpdate(BaseModel):
+class LogUpdate(BaseModel):
     date: datetime
     description: str
     claim_id: int    
