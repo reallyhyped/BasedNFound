@@ -29,7 +29,53 @@ const handler = NextAuth({
           });
 
           if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
+            const apiUrl = "http://backend:8000/business/";
+            const response = await fetch(`${apiUrl}${credentials?.username}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            const data = await response.json();
+            if (data.password == credentials?.password) {
+              return {
+                name: data.username,
+                first_name: data.name,
+                email: data.email,
+                userType: "Business",
+                phone_number: data.phone_number,
+              };
+            }
+
+            if (!response.ok) {
+              const apiUrl = "http://backend:8000/admin/";
+              const response = await fetch(
+                `${apiUrl}${credentials?.username}`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              const data = await response.json();
+              if (data.password == credentials?.password) {
+                return {
+                  name: data.username,
+                  email: data.email,
+                  userType: "Administrator",
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  phone_number: data.phone_number,
+                };
+              }
+
+              if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+              }
+            }
           }
 
           const data = await response.json();

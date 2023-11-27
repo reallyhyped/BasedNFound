@@ -13,7 +13,7 @@ const UserProfile = () => {
   const email = session.user?.email;
   const userType = session.userType;
   const first_name = session.first_name;
-  const last_name = session.last_name;
+  const last_name = session.last_name || "";
   const phone_number = session.phone_number;
 
   return (
