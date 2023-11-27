@@ -13,7 +13,7 @@ async def create_admin(admin: AdminIn, database=Depends(get_database)):
         raise HTTPException(status_code=409, detail="Admin already in database")
 
     query = """
-        INSERT INTO admin (username, password, first_name, last_name, email, phone_number)
+        INSERT INTO administrator (username, password, first_name, last_name, email, phone_number)
         VALUES (:username, :password, :first_name, :last_name, :email, :phone_number)
         RETURNING id
     """
@@ -31,13 +31,13 @@ async def create_admin(admin: AdminIn, database=Depends(get_database)):
 @admin_router.get("/", response_model=List[Admin])
 async def read_admins(database=Depends(get_database)):
     query = """
-        SELECT * FROM admin
+        SELECT * FROM administrator
     """
     return await database.fetch_all(query)
 
 @admin_router.get("/{username}", response_model=Admin)
 async def read_admin(username: str, database=Depends(get_database)):
-    find_query = "SELECT * FROM admin WHERE username = :username"
+    find_query = "SELECT * FROM administrator WHERE username = :username"
     found_admin = await database.fetch_one(find_query, {"username": username})
 
     if found_admin:
@@ -47,11 +47,11 @@ async def read_admin(username: str, database=Depends(get_database)):
 
 @admin_router.delete("/{username}")
 async def delete_admin(username: str, database=Depends(get_database)):
-    find_query = "SELECT * FROM admin WHERE username = :username"
+    find_query = "SELECT * FROM administrator WHERE username = :username"
     found_admin = await database.fetch_one(find_query, {"username": username})
 
     if found_admin:
-        delete_query = "DELETE FROM admin WHERE username = :username"
+        delete_query = "DELETE FROM administrator WHERE username = :username"
         await database.execute(delete_query, {"username": username})
         return {"admin deleted"}
     else:
@@ -59,7 +59,7 @@ async def delete_admin(username: str, database=Depends(get_database)):
 
 @admin_router.put("/{username}", response_model=Admin)
 async def update_admin(username: str, update_data: AdminUpdate, database=Depends(get_database)):
-    find_query = "SELECT * FROM admin WHERE username = :username"
+    find_query = "SELECT * FROM administrator WHERE username = :username"
     found_admin = await database.fetch_one(find_query, {"username": username})
 
     if not found_admin:
@@ -68,7 +68,7 @@ async def update_admin(username: str, update_data: AdminUpdate, database=Depends
     update_data_dict = update_data.dict(exclude_unset=True)
     update_fields = ", ".join([f"{key}=:{key}" for key in update_data_dict.keys()])
     if update_fields:
-        update_query = f"UPDATE admin SET {update_fields} WHERE username = :username"
+        update_query = f"UPDATE administrator SET {update_fields} WHERE username = :username"
         await database.execute(update_query, {**update_data_dict, "username": username})
         return await database.fetch_one(find_query, {"username": username})
     else:
@@ -76,7 +76,7 @@ async def update_admin(username: str, update_data: AdminUpdate, database=Depends
 
 @admin_router.get("/{username}/password")
 async def get_admin_password(username: str, database=Depends(get_database)):
-    find_query = "SELECT password FROM admin WHERE username = :username"
+    find_query = "SELECT password FROM administrator WHERE username = :username"
     result = await database.fetch_one(find_query, {"username": username})
 
     if result:
