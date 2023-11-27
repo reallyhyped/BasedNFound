@@ -3,9 +3,14 @@ import databases
 import sqlalchemy
 from typing import List
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from db import connect_to_db, disconnect_from_db, get_database
+
+
+
+from routes.user import router as UserRouter
 
 load_dotenv()
 
@@ -40,7 +45,6 @@ class Note(BaseModel):
     text: str
     boolean: bool
 
-
 app = FastAPI()
 
 origins = [
@@ -57,38 +61,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.on_event("startup")
 async def startup():
-    await database.connect()
+    await connect_to_db()
 
 
 @app.on_event("shutdown")
 async def shutdown():
-    await database.disconnect()
+    await disconnect_from_db()
 
+app.include_router(UserRouter, tags=["User"], prefix="/user")
 
-@app.get("/notes/", response_model=List[Note])
-async def read_notes():
-    # query = notes.select()
-    query = """
-        SELECT * FROM base_table    
-    """
-    return await database.fetch_all(query)
-
-
-@app.post("/notes/", response_model=Note)
-async def create_note(note: NoteIn):
-    print(note)
-    # query = notes.insert().values(text=note.text, boolean=note.boolean)
-    query = """
-        INSERT INTO base_table (text, boolean)
-        VALUES (:text, :boolean)
-        RETURNING id    
-    """
-    values = {"text": note.text, "boolean": note.boolean}
-    last_record_id = await database.execute(query, values)
-    return {**note.dict(), "id": last_record_id}
 
 @app.get("/businesses/")
 async def read_businesses():
@@ -96,3 +79,4 @@ async def read_businesses():
         SELECT name, email, phone_number FROM business
     """
     return await database.fetch_all(query)
+
