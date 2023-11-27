@@ -1,4 +1,4 @@
-from models.user_model import Business, BusinessIn, BusinessUpdate
+from models.business_model import Business, BusinessIn, BusinessUpdate
 from fastapi import APIRouter, Body, status, Response, HTTPException, Depends
 from typing import List
 
