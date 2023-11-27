@@ -15,7 +15,7 @@ from routes.business import router as BusinessRouter
 from routes.item import item_router as ItemRouter
 from routes.admin import admin_router as AdminRouter
 from routes.claim import claim_router as ClaimRouter
-
+from routes.contain import contain_router as ContainRouter
 
 load_dotenv()
 
@@ -89,5 +89,4 @@ app.include_router(BusinessRouter, tags=["Business"], prefix="/business")
 app.include_router(ItemRouter, tags=["Item"], prefix="/item")
 app.include_router(AdminRouter, tags=["Admin"], prefix="/admin")
 app.include_router(ClaimRouter, tags=["Claim"], prefix='/claim')
-
-
+app.include_router(ContainRouter, tags=["Contain"], prefix='/contain')
