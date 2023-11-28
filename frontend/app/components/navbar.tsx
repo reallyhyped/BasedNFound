@@ -25,11 +25,23 @@ export default function Navbar() {
             {/* Primary Navbar items */}
             <div className="hidden md:flex items-center space-x-1">
               <Link href="/">
-                <span className="py-4 px-2 text-red-500 border-b-4 border-red-500 font-semibold cursor-pointer">
+                <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
                   Home
                 </span>
               </Link>
               {/* More nav items */}
+               {/* Lost button */}
+               <Link href="/lost">
+                <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
+                  Lost
+                </span>
+              </Link>
+              {/* Found button */}
+              <Link href="/found">
+                <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
+                  Found
+                </span>
+              </Link>
             </div>
           </div>
           {/* Secondary Navbar items */}
@@ -37,7 +49,7 @@ export default function Navbar() {
             <div className="hidden md:flex items-center space-x-3">
               {/* User Profile link */}
               <Link href="/account/">
-                <span className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer">
+                <span className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer">
                   {session.user?.name || session.user?.email}
                 </span>
               </Link>
@@ -46,7 +58,7 @@ export default function Navbar() {
                 onClick={() =>
                   signOut({ callbackUrl: "http://localhost:3000/" })
                 }
-                className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer"
+                className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer"
               >
                 Sign Out
               </span>
@@ -56,13 +68,13 @@ export default function Navbar() {
               {/* Login button */}
               <Link
                 href="/account/login"
-                className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300 cursor-pointer"
+                className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer"
               >
                 Log In
               </Link>
               {/* Signup button */}
               <Link href="/account/register">
-                <span className="py-2 px-2 font-medium text-white bg-red-500 rounded hover:bg-red-400 transition duration-300 cursor-pointer">
+                <span className="py-2 px-2 font-medium text-white bg-blue-600 rounded hover:bg-red-400 transition duration-300 cursor-pointer">
                   Sign Up
                 </span>
               </Link>
