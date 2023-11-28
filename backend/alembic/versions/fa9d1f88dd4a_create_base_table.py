@@ -47,7 +47,8 @@ def upgrade() -> None:
         sa.Column("phone_number", sa.CHAR(10)),
         sa.Column("username", sa.String),
         sa.Column("password", sa.String),
-        sa.Column("location_id", sa.Integer, sa.ForeignKey("location.id"),)
+        sa.Column("location_id", sa.Integer, sa.ForeignKey("location.id")),
+        sa.Coulumn("status", sa.String),
     )
 
     op.create_table(
@@ -84,6 +85,7 @@ def upgrade() -> None:
         sa.Column("date", sa.DateTime),
         sa.Column("claim_id", sa.Integer, sa.ForeignKey("claim.id")),
         sa.Column("business_id", sa.Integer, sa.ForeignKey("business.id")),
+        sa.Column("description", sa.String),
     )
 
     op.create_table(

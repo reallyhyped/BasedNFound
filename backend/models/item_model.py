@@ -7,15 +7,18 @@ class Item(BaseModel):
     date: datetime
     claim_id: int
     business_id: int
+    description: str
 
 class ItemIn(BaseModel):
     name: str
     date: datetime
     claim_id: int
     business_id: int
+    description: str
 
 class ItemUpdate(BaseModel):
     name: str
     date: datetime
     claim_id: int
     business_id: int
+    description: str
