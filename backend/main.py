@@ -18,6 +18,7 @@ from routes.claim import claim_router as ClaimRouter
 from routes.contain import contain_router as ContainRouter
 from routes.log import log_router as LogRouter
 from routes.location import location_router as LocationRouter
+from routes.category import category_router as CategoryRouter
 
 load_dotenv()
 
@@ -94,3 +95,4 @@ app.include_router(ClaimRouter, tags=["Claim"], prefix='/claim')
 app.include_router(ContainRouter, tags=["Contain"], prefix='/contain')
 app.include_router(LogRouter, tags=["Log"], prefix='/log')
 app.include_router(LocationRouter, tags=["Location"], prefix='/location')
+app.include_router(CategoryRouter, tags=["Category"], prefix='/category')
