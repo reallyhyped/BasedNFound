@@ -89,7 +89,7 @@ const LostPage = () => {
           <button className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center items-start w-3/4 p-4 pl-4 pr-4">
+      <div className="flex flex-wrap justify-center items-start w-5/6 p-4 pl-4 pr-4">
         {demoItem.map(item => (
           <Card key={item.id} item={item} />
         ))}
