@@ -18,56 +18,56 @@ const LostPage = () => {
     {
       id: 1,
       name: "Phone",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A black iPhone 12 Pro Max with a black case.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 2,
       name: "Wallet",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A brown leather wallet with a blue stripe.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 3,
       name: "Keys",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A set of keys with a blue keychain.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 4,
       name: "Watch",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A silver watch with a black band.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 5,
       name: "Airpods",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A pair of white Airpods.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 6,
       name: "Glasses",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A pair of black glasses.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 7,
       name: "Laptop",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A black Macbook Pro.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     },
     {
       id: 8,
       name: "Backpack",
-      time: "2022-01-01",
+      date: "2022-01-01",
       description: "A black backpack with a blue stripe.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     }

@@ -1,8 +1,25 @@
-"use client"
+"use client";
 import React, { useState } from 'react'
 
 const newClaim = () => {
     const [submitted, setSubmitted] = useState(false);
+    const [categories, setCategories] = useState([
+        { id: 1, name: 'Show all categories' },
+        { id: 2, name: 'Bags & Backpacks' },
+        { id: 3, name: 'Children Items' },
+        { id: 4, name: 'Clothing' },
+        { id: 5, name: 'Computers & Electronics' },
+        { id: 6, name: 'Eyewear' },
+        { id: 7, name: 'Footwear' },
+        { id: 8, name: 'Hokie P' },
+        { id: 9, name: 'IDs & Cards' },
+        { id: 10, name: 'Keys' },
+        { id: 11, name: 'Miscellaneous' },
+        { id: 12, name: 'Mobile Devices' },
+        { id: 13, name: 'Wallets & Purses' },
+        { id: 14, name: 'Watches & Jewelry' },
+        { id: 15, name: 'Water Bottles' },
+    ]);
 
     //locations here
     const locations = ['Location 1', 'Location 2', 'Location 3']; 
@@ -24,8 +41,13 @@ const newClaim = () => {
                 <option key={index} value={location}>{location}</option>
               ))}
             </select>
-            <p className="text-left w-full mb-2">Add item photo</p>
-            <input className="w-full px-4 py-2 rounded-lg mb-4" type="file" />
+            <select className="w-full px-4 py-2 rounded-lg mb-4" required>
+              <option value="">Select categories</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.name}>{category.name}</option>
+              ))}
+            </select>
+            <input className="w-full px-4 py-2 rounded-lg mb-4" type="url" placeholder="Item photo URL" />
             <textarea className="w-full px-4 py-2 rounded-lg mb-4" placeholder="Description" required></textarea>
             <button className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white mb-4" type="submit">Submit</button>
           </form>
