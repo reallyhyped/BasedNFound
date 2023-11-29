@@ -3,13 +3,14 @@
 Setup:
 cd into front end
 
-        npm install
+    npm install
 
+You will need Docker Desktop open in order to run the following commands.
 Docker:
 
     docker compose up --build
 
-If first run, need to set up the db table:
+If first run, need to set up the db table on a new terminal while docker is running:
 
     docker exec -it basednfound-backend-1 bash
     alembic upgrade head
@@ -21,8 +22,15 @@ pgAdmin credentials:
 
     admin
 
-PSQL
-psql --username=basednfound_user --dbname=basednfound_dev
+Accessing PSQL:
+
+    docker exec -it basednfound-backend-1 bash
+    psql --username=basednfound_user --dbname=basednfound_dev
+
+View database through PSQL:
+
+    \dt
+    SELECT * FROM [datatable name]
 
 pgAdmin add server:
 
