@@ -30,8 +30,8 @@ export default function Navbar() {
                 </span>
               </Link>
               {/* More nav items */}
-               {/* Lost button */}
-               <Link href="/lost">
+              {/* Lost button */}
+              <Link href="/lost">
                 <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
                   Lost
                 </span>
@@ -53,6 +53,22 @@ export default function Navbar() {
                   {session.user?.name || session.user?.email}
                 </span>
               </Link>
+              {/* Admin Page */}
+              {session.userType === "Administrator" && (
+                <Link href="/admin">
+                  <span className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer">
+                    Admin
+                  </span>
+                </Link>
+              )}
+              {/* Business Page */}
+              {session.userType === "Business" && (
+                <Link href="/business">
+                  <span className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer">
+                    {session.first_name}
+                  </span>
+                </Link>
+              )}
               {/* Logout button */}
               <span
                 onClick={() =>
@@ -82,6 +98,6 @@ export default function Navbar() {
           )}
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }
