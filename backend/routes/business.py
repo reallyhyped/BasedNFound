@@ -15,13 +15,14 @@ async def create_user(business: BusinessIn, database = Depends(get_database)):
         raise HTTPException(status_code=409, detail="Business already in database")
 
     query = """
-        INSERT INTO business (name, email, phone_number, username, password, location_id)
-        VALUES (:name, :email, :phone_number, :username, :password, :location_id)
+        INSERT INTO business (name, email, phone_number, username, password, location_id, status)
+        VALUES (:name, :email, :phone_number, :username, :password, :location_id, :status)
         RETURNING id
     """
 
     values = {"name": business.name, "email":business.email, "phone_number":business.phone_number, 
-              "username":business.username, "password":business.password, "location_id": business.location_id}
+              "username": business.username, "password": business.password, 
+              "location_id": business.location_id, "status": business.status}
 
     last_record_id = await database.execute(query, values)
     return {**business.dict(), "id": last_record_id}
