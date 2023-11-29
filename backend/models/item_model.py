@@ -8,6 +8,7 @@ class Item(BaseModel):
     claim_id: int
     business_id: int
     description: str
+    image: str
 
 class ItemIn(BaseModel):
     name: str
@@ -15,6 +16,7 @@ class ItemIn(BaseModel):
     claim_id: int
     business_id: int
     description: str
+    image: str
 
 class ItemUpdate(BaseModel):
     name: str
@@ -22,3 +24,4 @@ class ItemUpdate(BaseModel):
     claim_id: int
     business_id: int
     description: str
+    image: str
