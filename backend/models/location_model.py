@@ -5,16 +5,16 @@ class Location(BaseModel):
     address: str
     city: str
     state: str
-    zipcode: constr(max_length=5)
+    zipcode: int
 
 class LocationIn(BaseModel):
     address: str
     city: str
     state: str
-    zipcode: constr(max_length=5)
+    zipcode: int
 
 class LocationUpdate(BaseModel):
     address: str
     city: str
     state: str
-    zipcode: constr(max_length=5)
+    zipcode: int

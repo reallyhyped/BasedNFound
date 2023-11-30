@@ -8,6 +8,7 @@ class Business(BaseModel):
     username: str
     password: str
     location_id: int
+    status: bool
 
 class BusinessIn(BaseModel):
     name: str
@@ -16,6 +17,7 @@ class BusinessIn(BaseModel):
     username: str
     password: str
     location_id: int
+    status: bool
 
 class BusinessUpdate(BaseModel):
     name: str
@@ -24,3 +26,4 @@ class BusinessUpdate(BaseModel):
     username: str
     password: str
     location_id: int
+    status: bool
