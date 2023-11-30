@@ -5,10 +5,12 @@ const ReportLost = () => {
     const [submitted, setSubmitted] = useState(false);
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [businesses, setBusinesses] = useState([]); // State to store businesses
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        // Fetch categories
         fetch('http://localhost:8000/category/')
             .then(response => {
                 if (!response.ok) {
@@ -18,19 +20,43 @@ const ReportLost = () => {
             })
             .then(data => {
                 setCategories(data);
-                setLoading(false);
             })
             .catch(error => {
                 setError(error.message);
-                setLoading(false);
             });
-    }, []);
 
-    const locations = ['Location 1', 'Location 2', 'Location 3'];
+        // Fetch businesses
+        fetch('http://localhost:8000/business/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setBusinesses(data);
+            })
+            .catch(error => {
+                setError(error.message);
+            })
+            .finally(() => setLoading(false));
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Handle the submission with selectedCategories
+        // Getting values from uncontrolled components (input, textarea, and single select)
+        const form = event.target;
+        const date = form.querySelector('input[type="date"]').value;
+        const business = form.querySelector('select').value; // Assuming this is the first select element for business
+        const itemPhotoUrl = form.querySelector('input[type="url"]').value;
+        const description = form.querySelector('textarea').value;
+
+        // Logging values
+        console.log('Date:', date);
+        console.log('Business:', business);
+        console.log('Selected Categories:', selectedCategories); // This is from controlled component state
+        console.log('Item Photo URL:', itemPhotoUrl);
+        console.log('Description:', description);
         setSubmitted(true);
     };
 
@@ -49,9 +75,9 @@ const ReportLost = () => {
                 <form onSubmit={handleSubmit}>
                     <input className="w-full px-4 py-2 rounded-lg mb-4" type="date" placeholder="Date" required />
                     <select className="w-full px-4 py-2 rounded-lg mb-4" required>
-                        <option value="">Select Location</option>
-                        {locations.map((location, index) => (
-                            <option key={index} value={location}>{location}</option>
+                        <option value="">Select business</option>
+                        {businesses.map((business) => (
+                            <option key={business.id} value={business.id}>{business.name}</option>
                         ))}
                     </select>
                     <select
@@ -72,7 +98,7 @@ const ReportLost = () => {
                 {submitted && <p className="mt-4 text-green-500">You have successfully submitted the claim and it is now waiting for the administrator's review.</p>}
             </div>
         </div>
-    )
+    );
 }
 
 export default ReportLost;
