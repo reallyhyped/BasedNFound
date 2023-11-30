@@ -114,6 +114,7 @@ const handler = NextAuth({
       session.first_name = token.first_name;
       session.last_name = token.last_name;
       session.phone_number = token.phone_number;
+      session.user.userType = token.userType;
       return session;
     },
   },
