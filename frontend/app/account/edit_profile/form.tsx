@@ -15,14 +15,39 @@ export default function Form() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const response = await fetch(`/api/auth/update`, {
-      method: "POST",
-      body: JSON.stringify({
-        username: session?.user?.name,
-        password: formData.get("password"),
-      }),
-    });
-    console.log({ response });
+    if (session?.userType == "user") {
+      const response = await fetch(`/api/auth/user/update`, {
+        method: "POST",
+        body: JSON.stringify({
+          username: session?.user?.name,
+          password: formData.get("password"),
+        }),
+      });
+      console.log({ response });
+    }
+
+    if (session?.userType == "Business") {
+      const response = await fetch(`/api/auth/business/update`, {
+        method: "POST",
+        body: JSON.stringify({
+          username: session?.user?.name,
+          password: formData.get("password"),
+        }),
+      });
+      console.log({ response });
+    }
+
+    if (session?.userType == "Administrator") {
+      const response = await fetch(`/api/auth/admin/update`, {
+        method: "POST",
+        body: JSON.stringify({
+          username: session?.user?.name,
+          password: formData.get("password"),
+        }),
+      });
+      console.log({ response });
+    }
+
 
     router.push("/");
     router.refresh();
