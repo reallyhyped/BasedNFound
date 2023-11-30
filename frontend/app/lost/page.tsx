@@ -42,8 +42,8 @@ const LostPage = () => {
       <h1 className="text-2xl font-bold mt-4">Lost Items</h1>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
         <div>We found {lostItems.length} unclaimed items.</div>
-        <Link href="/newClaim">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">File A Claim</button>
+        <Link href="/report_lost">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Report Lost Item</button>
         </Link>
       </div>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
@@ -55,8 +55,8 @@ const LostPage = () => {
       </div>
       <div className="flex flex-wrap justify-center items-start w-5/6">
         {lostItems.map((lostItem, index) => (
-            <Card key={index} item={lostItem} />
-          ))}
+          <Card key={index} item={lostItem} />
+        ))}
       </div>
       <div className="w-full p-4">
         {/* Your pagination component */}
