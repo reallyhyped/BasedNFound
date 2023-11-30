@@ -6,13 +6,6 @@ export async function POST(request: Request) {
       await request.json();
     //validate email and password here
     try {
-      console.log(name)
-      console.log(email)
-      console.log(phone_number)
-      console.log(username)
-      console.log(password)
-      console.log(location_id)
-      console.log(status)
       const apiUrl = "http://backend:8000/business/";
       const response = await fetch(apiUrl, {
         method: "POST",
