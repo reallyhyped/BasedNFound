@@ -41,9 +41,9 @@ const FoundPage = () => {
     <div className="flex flex-col items-center">
       <h1 className="text-2xl font-bold mt-4">Found Items</h1>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
-        <div>We found {foundItems.length} unclaimed items.</div>
-        <Link href="/newClaim">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">File A Claim</button>
+        <div>We found {items.length} unclaimed items.</div>
+        <Link href="/report_lost">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Report Lost Item</button>
         </Link>
       </div>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
@@ -55,8 +55,8 @@ const FoundPage = () => {
       </div>
       <div className="flex flex-wrap justify-center items-start w-5/6">
         {foundItems.map((foundItem, index) => (
-            <Card key={index} item={foundItem} />
-          ))}
+          <Card key={index} item={foundItem} />
+        ))}
       </div>
       <div className="w-full p-4">
         {/* Your pagination component */}
