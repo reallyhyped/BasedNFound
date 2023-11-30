@@ -38,7 +38,7 @@ const handler = NextAuth({
             });
 
             const data = await response.json();
-            if (data.password == credentials?.password) {
+            if (data.password == credentials?.password && data.status) {
               return {
                 name: data.username,
                 first_name: data.name,

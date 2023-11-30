@@ -63,7 +63,7 @@ export default function Navbar() {
               )}
               {/* Business Page */}
               {session.userType === "Business" && (
-                <Link href="/business">
+                <Link href="/account/business">
                   <span className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer">
                     {session.first_name}
                   </span>

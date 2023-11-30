@@ -8,7 +8,7 @@ export default function Form() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const response = await fetch(`/api/auth/register`, {
+    const response = await fetch(`/api/auth/user/register`, {
       method: 'POST',
       body: JSON.stringify({
         username: formData.get('username'),
@@ -19,10 +19,10 @@ export default function Form() {
         phone_number: formData.get('phone_number'),
       }),
     });
-      
+
     router.push("/")
     router.refresh();
-    
+
 
   };
   return (
