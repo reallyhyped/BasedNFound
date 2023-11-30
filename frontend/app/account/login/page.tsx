@@ -9,5 +9,5 @@ export default async function LoginPage() {
   if (session) {
     redirect('/');
   }
-  return (<div><Form /><Link href="/account/register">Register</Link></div>);
+  return (<div><Form /><Link href="/account/register">Register</Link><div><Link href="/account/business/register">Are you a business? Create an account here</Link></div></div>);
 }
