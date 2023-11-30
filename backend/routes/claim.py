@@ -8,15 +8,14 @@ claim_router = APIRouter()
 @claim_router.post("/", response_model=Claim)
 async def create_claim(claim: ClaimIn, database=Depends(get_database)):
     query = """
-        INSERT INTO claim (status, date, description, business_id, bnf_user_id)
-        VALUES (:status, :date, :description, :business_id, :bnf_user_id)
+        INSERT INTO claim (status, date, description, bnf_user_id)
+        VALUES (:status, :date, :description, :bnf_user_id)
         RETURNING id
     """
     values = {
         "status": claim.status,
         "date": claim.date,
         "description": claim.description,
-        "business_id": claim.business_id,
         "bnf_user_id": claim.bnf_user_id,
     }
     last_record_id = await database.execute(query, values)
