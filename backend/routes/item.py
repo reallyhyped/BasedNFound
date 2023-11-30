@@ -8,7 +8,7 @@ item_router = APIRouter()
 @item_router.post("/", response_model=Item)
 async def create_item(item: ItemIn, database=Depends(get_database)):
     query = """
-        INSERT INTO item (name, date, claim_id, business_id, description, image, :status)
+        INSERT INTO item (name, date, claim_id, business_id, description, image, status)
         VALUES (:name, :date, :claim_id, :business_id, :description, :image, :status)
         RETURNING id
     """
@@ -19,6 +19,7 @@ async def create_item(item: ItemIn, database=Depends(get_database)):
         "business_id": item.business_id,
         "description": item.description,
         "image": item.image,
+        "status": item.status,
     }
     last_record_id = await database.execute(query, values)
     return {**item.dict(), "id": last_record_id}
