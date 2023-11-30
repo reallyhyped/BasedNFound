@@ -15,6 +15,7 @@ from routes.business import router as BusinessRouter
 from routes.item import item_router as ItemRouter
 from routes.admin import admin_router as AdminRouter
 from routes.claim import claim_router as ClaimRouter
+from routes.manage import manage_router as ManageRouter
 from routes.contain import contain_router as ContainRouter
 from routes.log import log_router as LogRouter
 from routes.location import location_router as LocationRouter
@@ -92,6 +93,7 @@ app.include_router(BusinessRouter, tags=["Business"], prefix="/business")
 app.include_router(ItemRouter, tags=["Item"], prefix="/item")
 app.include_router(AdminRouter, tags=["Admin"], prefix="/admin")
 app.include_router(ClaimRouter, tags=["Claim"], prefix='/claim')
+app.include_router(ManageRouter, tags=["Manage"], prefix='/manage')
 app.include_router(ContainRouter, tags=["Contain"], prefix='/contain')
 app.include_router(LogRouter, tags=["Log"], prefix='/log')
 app.include_router(LocationRouter, tags=["Location"], prefix='/location')
