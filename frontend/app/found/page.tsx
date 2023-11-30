@@ -7,8 +7,19 @@ import Pagination from '../components/pagination';
 import Footer from '../components/footer';
 import Link from 'next/link';
 
+interface Item {
+  id: number;
+  name: string;
+  date: string;
+  claim_id: number;
+  business_id: number;
+  description: string;
+  image: string;
+  status: string;
+}
+
 const FoundPage = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Item[][]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,13 +35,14 @@ const FoundPage = () => {
     fetchData();
   }, []);
 
+  const foundItems = items.flat().filter((item) => item.status === 'found');
+
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-2xl font-bold mt-4">Found Items</h1>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
-        <div>We found {items.length} unclaimed items.</div>
+        <div>We found {foundItems.length} unclaimed items.</div>
         <Link href="/report_lost">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Report Lost Item</button>
         </Link>
       </div>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
@@ -41,9 +53,9 @@ const FoundPage = () => {
         </div>
       </div>
       <div className="flex flex-wrap justify-center items-start w-5/6">
-        {items.flat().map((item, index) => (
-          <Card key={index} item={item} />
-        ))}
+        {foundItems.map((foundItem, index) => (
+            <Card key={index} item={foundItem} />
+          ))}
       </div>
       <div className="w-full p-4">
         {/* Your pagination component */}
