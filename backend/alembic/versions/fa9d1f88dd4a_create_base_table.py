@@ -87,6 +87,7 @@ def upgrade() -> None:
         sa.Column("business_id", sa.Integer, sa.ForeignKey("business.id")),
         sa.Column("description", sa.String),
         sa.Column("image", sa.String),
+        sa.Column("status", sa.String),
     )
 
     op.create_table(

@@ -8,8 +8,8 @@ item_router = APIRouter()
 @item_router.post("/", response_model=Item)
 async def create_item(item: ItemIn, database=Depends(get_database)):
     query = """
-        INSERT INTO item (name, date, claim_id, business_id, description, image)
-        VALUES (:name, :date, :claim_id, :business_id, :description, :image)
+        INSERT INTO item (name, date, claim_id, business_id, description, image, :status)
+        VALUES (:name, :date, :claim_id, :business_id, :description, :image, :status)
         RETURNING id
     """
     values = {
