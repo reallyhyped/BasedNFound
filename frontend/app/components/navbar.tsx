@@ -55,7 +55,7 @@ export default function Navbar() {
               </Link>
               {/* Admin Page */}
               {session.userType === "Administrator" && (
-                <Link href="/admin">
+                <Link href="/account/admin">
                   <span className="py-2 px-2 font-medium text-gray-500 rounded hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer">
                     Admin
                   </span>
