@@ -9,7 +9,7 @@ export async function POST(request: Request){
         //validate email and password here
         try {
 
-            const apiUrl = 'http://backend:8000/user/' + username;
+            const apiUrl = 'http://backend:8000/business/' + username;
             const response = await fetch(apiUrl, {
                 method: 'GET',
                 headers: {
@@ -33,10 +33,11 @@ export async function POST(request: Request){
                 body: JSON.stringify({ 
                     username: username,
                     password: password, // Note: Password should be handled securely!
-                    first_name: user.first_name,
-                    last_name: user.last_name,
+                    name: user.name,
+                    location_id: user.location_id,
                     email: user.email,
                     phone_number: user.phone_number,
+                    status: user.status
                 }),
               });
     
