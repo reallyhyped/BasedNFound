@@ -58,7 +58,9 @@ const ReportLost = () => {
     const itemName = form.querySelector('textarea[name="itemName"]').value; // Retrieves the name from the textarea
     const businessId = form.querySelector("select").value; // Business ID
     const itemPhotoUrl = form.querySelector('input[type="url"]').value;
-    const description = form.querySelector("textarea").value;
+    const description = form.querySelector(
+      'textarea[name="description"]'
+    ).value;
     const bnfUserId = session?.id; // From session
 
     // Logging values
@@ -254,6 +256,7 @@ const ReportLost = () => {
           <textarea
             className="w-full px-4 py-2 rounded-lg mb-4"
             placeholder="Description"
+            name="description"
             required
           ></textarea>
           <button
