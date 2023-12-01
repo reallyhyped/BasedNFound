@@ -95,3 +95,13 @@ async def update_item(
         return await database.fetch_one(find_query, {"item_id": item_id})
     else:
         raise HTTPException(status_code=400, detail="No fields to update")
+
+@item_router.get("/category/{category_id}", response_model=List[Item])
+async def read_items_by_category(category_id: int, database=Depends(get_database)):
+    query = """
+        SELECT item.* FROM item
+        JOIN contain ON item.id = contain.item_id
+        WHERE contain.category_id = :category_id
+    """
+    items_in_category = await database.fetch_all(query, {"category_id": category_id})
+    return items_in_category
