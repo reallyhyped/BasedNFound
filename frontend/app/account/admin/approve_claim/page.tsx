@@ -2,7 +2,7 @@ import React from 'react';
 
 import ReviewItem from '../../../components/reviewitem';
 
-const Review = () => {
+const ReviewClaim = () => {
   const demoItems = [
     {
       id: 1,
@@ -51,4 +51,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ReviewClaim;
