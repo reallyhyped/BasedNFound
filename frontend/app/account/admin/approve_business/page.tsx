@@ -1,8 +1,13 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import ReviewBusiness from '../../../components/reviewbusiness';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 const ApproveBusiness = () => {
+  const { data: session, status } = useSession();
+  console.log(session)
+
   const [businesses, setBusinesses] = useState([]);
 
   useEffect(() => {
@@ -24,6 +29,16 @@ const ApproveBusiness = () => {
   const removeBusiness = (id) => {
     setBusinesses(businesses.filter(business => business.id !== id));
   };
+
+  // Wait for session to be loaded
+  if (status === 'loading') {
+    return <div>Loading...</div>; // Or your custom loading component
+  }
+
+  // Redirect if not an administrator
+  if (session?.userType !== "Administrator") {
+    redirect('/');
+  }
 
   return (
     <div className="flex flex-col items-center">
