@@ -10,6 +10,7 @@ class Item(BaseModel):
     description: str
     image: str
     status: str
+    bnf_user_id: int
 
 class ItemIn(BaseModel):
     name: str
@@ -19,6 +20,7 @@ class ItemIn(BaseModel):
     description: str
     image: str
     status: str
+    bnf_user_id: int
 
 class ItemUpdate(BaseModel):
     name: str
@@ -28,3 +30,4 @@ class ItemUpdate(BaseModel):
     description: str
     image: str
     status: str
+    bnf_user_id: int

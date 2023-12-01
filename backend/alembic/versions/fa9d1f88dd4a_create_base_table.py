@@ -74,7 +74,6 @@ def upgrade() -> None:
         sa.Column("status", sa.String),
         sa.Column("date", sa.DateTime),
         sa.Column("description", sa.String),
-        sa.Column("business_id", sa.Integer, sa.ForeignKey("business.id")),
         sa.Column("bnf_user_id", sa.Integer, sa.ForeignKey("bnf_user.id")),
     )
 
@@ -88,6 +87,7 @@ def upgrade() -> None:
         sa.Column("description", sa.String),
         sa.Column("image", sa.String),
         sa.Column("status", sa.String),
+        sa.Column("bnf_user_id", sa.Integer, sa.ForeignKey("bnf_user.id")),
     )
 
     op.create_table(

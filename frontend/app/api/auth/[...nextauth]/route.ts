@@ -40,6 +40,7 @@ const handler = NextAuth({
             const data = await response.json();
             if (data.password == credentials?.password && data.status) {
               return {
+                id: data.id,
                 name: data.username,
                 first_name: data.name,
                 email: data.email,
@@ -63,6 +64,7 @@ const handler = NextAuth({
               const data = await response.json();
               if (data.password == credentials?.password) {
                 return {
+                  id: data.id,
                   name: data.username,
                   email: data.email,
                   userType: "Administrator",
@@ -79,8 +81,10 @@ const handler = NextAuth({
           }
 
           const data = await response.json();
+
           if (data.password == credentials?.password) {
             return {
+              id: data.id,
               name: data.username,
               email: data.email,
               userType: "user",
@@ -101,6 +105,7 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       // user is the object returned from the authorize function
       if (user) {
+        token.id = user.id;
         token.userType = user.userType; // Add user type to the token
         token.first_name = user.first_name;
         token.last_name = user.last_name;
@@ -110,11 +115,11 @@ const handler = NextAuth({
     },
     async session({ session, token }) {
       // Add the user type to the session
+      session.id = token.id;
       session.userType = token.userType;
       session.first_name = token.first_name;
       session.last_name = token.last_name;
       session.phone_number = token.phone_number;
-      session.user.userType = token.userType;
       return session;
     },
   },

@@ -41,7 +41,7 @@ const FoundPage = () => {
     <div className="flex flex-col items-center">
       <h1 className="text-2xl font-bold mt-4">Found Items</h1>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
-        <div>We found {items.length} unclaimed items.</div>
+        <div>We found {foundItems.length} unclaimed items.</div>
         <Link href="/report_lost">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Report Lost Item</button>
         </Link>
