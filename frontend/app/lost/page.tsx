@@ -1,10 +1,10 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import DropdownMenu from '../components/DropdownMenu'; // Adjust the path as needed
-import Card from '../components/Card'; // Adjust the path as needed
-import Pagination from '../components/Pagination'; // Adjust the path as needed
-import Footer from '../components/Footer'; // Adjust the path as needed
-import Link from 'next/link';
+"use client";
+import React, { useState, useEffect } from "react";
+import DropdownMenu from "../components/dropdownMenu"; // Adjust the path as needed
+import Card from "../components/card"; // Adjust the path as needed
+import Pagination from "../components/pagination"; // Adjust the path as needed
+import Footer from "../components/footer"; // Adjust the path as needed
+import Link from "next/link";
 
 interface Item {
   id: number;
@@ -19,19 +19,21 @@ interface Item {
 
 const LostPage = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const url = selectedCategoryId
           ? `http://localhost:8000/item/category/${selectedCategoryId}`
-          : 'http://localhost:8000/item';
+          : "http://localhost:8000/item";
         const response = await fetch(url);
         const data = await response.json();
         setItems(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -42,7 +44,7 @@ const LostPage = () => {
     setSelectedCategoryId(categoryId);
   };
 
-  const lostItems = items.filter((item) => item.status === 'lost');
+  const lostItems = items.filter((item) => item.status === "lost");
 
   return (
     <div className="flex flex-col items-center">
@@ -56,7 +58,7 @@ const LostPage = () => {
         </Link>
       </div>
       <div className="flex justify-between items-center w-3/4 p-4 pl-4 pr-4">
-      <DropdownMenu onCategorySelect={handleCategorySelect} />
+        <DropdownMenu onCategorySelect={handleCategorySelect} />
         <div className="flex">
           <input
             className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -83,4 +85,3 @@ const LostPage = () => {
 };
 
 export default LostPage;
-
