@@ -88,7 +88,12 @@ export default function Page({ params }: { params: { itemID: string } }) {
         className="w-96 h-96 object-cover"
       />
       <p className="text-lg">{item.description}</p>
-      <p className="text-lg">Found on: {item.date}</p>
+      {item.status === "lost" && (
+        <p className="text-lg">Lost on: {item.date}</p>
+      )}
+      {item.status === "found" && (
+        <p className="text-lg">Found on: {item.date}</p>
+      )}
 
       {item.status === "found" &&
         !isClaimed &&
