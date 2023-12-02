@@ -21,7 +21,7 @@ export default function Navbar() {
             {/* Website Logo */}
             <Link href="/">
               <div className="flex items-center py-4 px-2 cursor-pointer">
-              <Image src={logo} width={250} height={35} alt={"BasedNFound"} />
+                <Image src={logo} width={250} height={35} alt={"BasedNFound"} />
               </div>
             </Link>
             {/* Primary Navbar items */}
@@ -42,6 +42,11 @@ export default function Navbar() {
               <Link href="/found">
                 <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
                   Found
+                </span>
+              </Link>
+              <Link href="/stats">
+                <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
+                  Stats
                 </span>
               </Link>
             </div>

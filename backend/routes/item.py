@@ -6,6 +6,55 @@ from db import get_database
 item_router = APIRouter()
 
 
+@item_router.get("/count_found_lost/", response_model=List[dict])
+async def count_found_lost_all(database=Depends(get_database)):
+    query = """
+        SELECT 
+            date::date, 
+            SUM(CASE WHEN status = 'found' THEN 1 ELSE 0 END) AS found, 
+            SUM(CASE WHEN status = 'lost' THEN 1 ELSE 0 END) AS lost,
+            SUM(CASE WHEN status = 'claimed' THEN 1 ELSE 0 END) AS claim
+        FROM item
+        GROUP BY date::date
+        ORDER BY date::date
+    """
+    results = await database.fetch_all(query)
+    return [
+        {
+            "date": str(result["date"]),
+            "found": result["found"],
+            "lost": result["lost"],
+            "claim": result["claim"],
+        }
+        for result in results
+    ]
+
+
+@item_router.get("/count_found_lost/{business_id}", response_model=List[dict])
+async def count_found_lost(business_id: int, database=Depends(get_database)):
+    query = """
+        SELECT 
+            date::date, 
+            SUM(CASE WHEN status = 'found' THEN 1 ELSE 0 END) AS found, 
+            SUM(CASE WHEN status = 'lost' THEN 1 ELSE 0 END) AS lost,
+            SUM(CASE WHEN status = 'claimed' THEN 1 ELSE 0 END) AS claim
+        FROM item
+        WHERE business_id = :business_id
+        GROUP BY date::date
+        ORDER BY date::date
+    """
+    results = await database.fetch_all(query, {"business_id": business_id})
+    return [
+        {
+            "date": str(result["date"]),
+            "found": result["found"],
+            "lost": result["lost"],
+            "claim": result["claim"],
+        }
+        for result in results
+    ]
+
+
 @item_router.put("/set_found/{id}", response_model=Item)
 async def found_item(id: int, database=Depends(get_database)):
     # SQL query to update the status
@@ -95,6 +144,7 @@ async def update_item(
         return await database.fetch_one(find_query, {"item_id": item_id})
     else:
         raise HTTPException(status_code=400, detail="No fields to update")
+
 
 @item_router.get("/category/{category_id}", response_model=List[Item])
 async def read_items_by_category(category_id: int, database=Depends(get_database)):
