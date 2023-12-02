@@ -8,25 +8,89 @@ export default function Page({ params }: { params: { itemID: string } }) {
   const { data: session } = useSession();
   const [item, setItem] = useState(null);
   const [isClaimed, setIsClaimed] = useState(false);
+  const [claim, setClaim] = useState(null);
 
   useEffect(() => {
-    const fetchItem = async () => {
+    const fetchItemAndClaim = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/item/${params.itemID}`
-        );
-        const data = await response.json();
-        setItem(data);
+        // Fetch item data
+        const itemResponse = await fetch(`http://localhost:8000/item/${params.itemID}`);
+        const itemData = await itemResponse.json();
+        setItem(itemData);
+
+        // Fetch claim data
+        if (itemData.claim_id) {
+          const claimResponse = await fetch(`http://localhost:8000/claim/${itemData.claim_id}`);
+          const claimData = await claimResponse.json();
+          setClaim(claimData);
+
+          if (claimData.status.includes("Pending")) {
+            setIsClaimed(true);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching item:", error);
+        console.error("Error fetching item or claim:", error);
       }
     };
 
-    fetchItem();
+    fetchItemAndClaim();
   }, [params.itemID]);
 
-  const handleClaim = () => {
-    setIsClaimed(true); // You might want to also send a request to update the item status
+  const handleClaim = async () => {
+    if (!item || !item.claim_id) {
+      console.error("Item or claim ID is undefined");
+      return;
+    }
+
+    try {
+      const claimUpdateData = {
+        date: new Date().toISOString().slice(0, -1), // Current date in ISO format without timezone
+        status: "Pending",
+        bnf_user_id: session?.id, // Assuming session.id is the ID of the current user
+        description: item.description, // You can customize this description if needed
+      };
+
+      const response = await fetch(`http://localhost:8000/claim/${item.claim_id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(claimUpdateData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const updatedClaim = await response.json();
+      console.log("Claim updated:", updatedClaim);
+
+      // Log the action
+      const logData = {
+        date: new Date().toISOString().slice(0, -1), // Current date in ISO format
+        description: `Attempted to be claimed by: ${session?.user?.name}`, // Custom description
+        claim_id: item.claim_id, // Using claim_id from the item
+      };
+
+      const logResponse = await fetch("http://localhost:8000/log/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(logData),
+      });
+
+      if (!logResponse.ok) {
+        throw new Error("Log response was not ok");
+      }
+
+      const logResult = await logResponse.json();
+      console.log("Log submitted:", logResult);
+
+      setIsClaimed(true); // Update local state to reflect the claim
+    } catch (error) {
+      console.error("Error updating claim:", error);
+    }
   };
 
   const handleSetFound = async () => {
@@ -95,17 +159,19 @@ export default function Page({ params }: { params: { itemID: string } }) {
         <p className="text-lg">Found on: {item.date}</p>
       )}
 
-      {item.status === "found" &&
-        !isClaimed &&
-        session?.userType === "user" && (
-          <button
-            onClick={handleClaim}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Claim
-          </button>
-        )}
-      {isClaimed && <p className="text-lg">Claimed successfully!</p>}
+      {item.status === "found" && !isClaimed && session?.userType === "user" && (
+        <button onClick={handleClaim} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Claim
+        </button>
+      )}
+
+      {isClaimed && claim?.bnf_user_id === session?.id && (
+        <p className="text-lg">Your claim is pending approval</p>
+      )}
+
+      {isClaimed && claim?.bnf_user_id !== session?.id && (
+        <p className="text-lg">Pending to be claimed by another user</p>
+      )}
 
       {session?.userType === "Business" &&
         session?.id === item.business_id &&

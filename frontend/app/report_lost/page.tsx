@@ -76,7 +76,7 @@ const ReportLost = () => {
     const claimData = {
       date: date,
       status: "No one has claimed", // Assuming status needs to be set as "Pending"
-      bnf_user_id: bnfUserId,
+      bnf_user_id: null,
       description: description,
       // Add other fields as needed
     };
