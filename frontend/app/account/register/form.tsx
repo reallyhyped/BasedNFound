@@ -2,6 +2,7 @@
 
 import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Form() {
   const router = useRouter();
@@ -26,44 +27,66 @@ export default function Form() {
 
   };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-2 mx-auto max-w-md mt-10"
-    >
-      <input
-        name="username"
-        className="border border-black text-black"
-        type="input"
-        placeholder='username'
-      />
-      <input
-        name="password"
-        className="border border-black  text-black"
-        type="password"
-        placeholder='password'
-      />
-      <input
-        name="first_name"
-        className="border border-black  text-black"
-        placeholder='first name'
-      />
-      <input
-        name="last_name"
-        className="border border-black  text-black"
-        placeholder='last name'
-      /><input
-        name="email"
-        className="border border-black  text-black"
-        type="email"
-        placeholder='email'
-      />
-      <input
-        name="phone_number"
-        className="border border-black  text-black"
-        placeholder='phone number'
-      />
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <div className="flex flex-col w-full p-8 space-y-4 items-center bg-white sm:w-96 rounded-xl shadow-lg">
+        <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
+        <form
+          onSubmit={handleSubmit}
 
-      <button type="submit">Register</button>
-    </form>
+        >
+          <input
+            name="username"
+            className="w-full px-4 py-2 rounded-lg mb-4"
+            type="input"
+            placeholder='username'
+            required
+          />
+          <input
+            name="password"
+            className="w-full px-4 py-2 rounded-lg mb-4"
+            type="password"
+            placeholder='password'
+            required
+          />
+          <input
+            name="first_name"
+            className="w-full px-4 py-2 rounded-lg mb-4"
+            placeholder='first name'
+            required
+          />
+          <input
+            name="last_name"
+            className="w-full px-4 py-2 rounded-lg mb-4"
+            placeholder='last name'
+            required
+          />
+          <input
+            name="email"
+            className="w-full px-4 py-2 rounded-lg mb-4"
+            type="email"
+            placeholder='email'
+            required
+          />
+          <input
+            name="phone_number"
+            className="w-full px-4 py-2 rounded-lg mb-4"
+            placeholder='phone number'
+            required
+          />
+
+          <button
+            className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white mb-4"
+            type="submit"
+          >
+            Register
+          </button>
+        </form>
+        <button className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white text-center mb-4">
+          <Link href="/account/business/register">
+            Are you a business? Create an account here
+          </Link>
+        </button>
+      </div>
+    </div>
   );
 }

@@ -1,11 +1,40 @@
 from models.business_model import Business, BusinessIn, BusinessUpdate
 from fastapi import APIRouter, Body, status, Response, HTTPException, Depends
 from typing import List
+from pydantic import BaseModel
 
 from db import get_database
 
 
 router = APIRouter()
+
+
+class BusinessLocationResponse(BaseModel):
+    business_name: str
+    address: str
+    city: str
+    state: str
+    zipcode: int
+
+
+@router.get("/business_location/{business_id}", response_model=BusinessLocationResponse)
+async def read_business_location(business_id: int, database=Depends(get_database)):
+    # Query to find the business and location for the given business ID
+    query = """
+        SELECT b.name AS business_name, l.address, l.city, l.state, l.zipcode
+        FROM business b
+        JOIN location l ON b.location_id = l.id
+        WHERE b.id = :business_id
+    """
+    result = await database.fetch_one(query, {"business_id": business_id})
+
+    if result:
+        return result
+    else:
+        raise HTTPException(
+            status_code=404,
+            detail="Business location not found for the given business ID",
+        )
 
 
 @router.delete("/{business_id}")

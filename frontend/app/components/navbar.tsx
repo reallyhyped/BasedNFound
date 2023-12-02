@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
+import logo from "../TEXTLOGO.png";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -12,15 +14,15 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white shadow-lg sticky top-0 w-full z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex space-x-7">
             {/* Website Logo */}
             <Link href="/">
-              <span className="flex items-center py-4 px-2 font-semibold text-gray-500 text-lg cursor-pointer">
-                BasedNFound
-              </span>
+              <div className="flex items-center py-4 px-2 cursor-pointer">
+                <Image src={logo} width={250} height={35} alt={"BasedNFound"} />
+              </div>
             </Link>
             {/* Primary Navbar items */}
             <div className="hidden md:flex items-center space-x-1">
@@ -40,6 +42,11 @@ export default function Navbar() {
               <Link href="/found">
                 <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
                   Found
+                </span>
+              </Link>
+              <Link href="/stats">
+                <span className="py-4 px-2 text-blue-600 border-b-4 border-blue-600 font-semibold cursor-pointer">
+                  Stats
                 </span>
               </Link>
             </div>

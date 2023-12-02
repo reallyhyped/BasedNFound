@@ -93,68 +93,80 @@ export default function Form() {
 
   };
   return (
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+  <div className="flex flex-col w-full p-8 space-y-4 items-center bg-white sm:w-96 rounded-xl shadow-lg">
+    <h1 className="text-2xl font-bold mb-4">Business Registration</h1>
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-2 mx-auto max-w-md mt-10"
     >
       <input
         name="username"
-        className="border border-black text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         type="input"
         placeholder='username'
+        required
       />
       <input
         name="password"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         type="password"
         placeholder='password'
+        required
       />
       <input
         name="name"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         placeholder='name'
+        required
       />
-      {/* <select name="location" className="border border-black text-black">
-        {locations.map(location => (
-          <option key={location.id} value={location.id}>
-            {`${location.address}, ${location.city}, ${location.state}, ${location.zipcode}`}
-          </option>
-        ))}
-      </select> */}
       <input
         name="address"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         placeholder='address'
+        required
       />
       <input
         name="city"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         placeholder='city'
+        required
       />
       <input
         name="state"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         placeholder='state'
+        required
       />
       <input
         name="zipcode"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         type="number"
         placeholder='zipcode'
+        required
       />
       <input
         name="email"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         type="email"
         placeholder='email'
+        required
       />
       <input
         name="phone_number"
-        className="border border-black  text-black"
+        className="w-full px-4 py-2 rounded-lg mb-4"
         placeholder='phone number'
+        required
       />
 
-      <button type="submit">Register</button>
+      <button
+        className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white mb-4"
+        type="submit"
+      >
+        Register
+      </button>
     </form>
+  </div>
+</div>
+
   );
 }

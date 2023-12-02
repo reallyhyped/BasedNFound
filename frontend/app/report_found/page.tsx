@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const ReportLost = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [submitted, setSubmitted] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -56,12 +56,16 @@ const ReportLost = () => {
     const date = inputDate.toISOString().slice(0, -1);
 
     const itemName = form.querySelector('textarea[name="itemName"]').value; // Retrieves the name from the textarea
-    const businessId = form.querySelector("select").value; // Business ID
+    let businessId = session?.id
     const itemPhotoUrl = form.querySelector('input[type="url"]').value;
     const description = form.querySelector(
       'textarea[name="description"]'
     ).value;
-    const bnfUserId = session?.id; // From session
+    const bnfUserId = null; // From session
+    if (session?.userType == "Administrator") {
+      businessId = form.querySelector("select").value; // Business ID
+
+    }
 
     // Logging values
     // console.log('Name:', itemName);
@@ -76,7 +80,7 @@ const ReportLost = () => {
     const claimData = {
       date: date,
       status: "No one has claimed", // Assuming status needs to be set as "Pending"
-      bnf_user_id: null,
+      bnf_user_id: bnfUserId,
       description: description,
       // Add other fields as needed
     };
@@ -106,7 +110,7 @@ const ReportLost = () => {
       // Making the POST request to the log endpoint
       const logData = {
         date: date,
-        description: "Item has been reported as lost", // Update this as needed
+        description: "Item has been reported as found", // Update this as needed
         claim_id: claimId,
       };
 
@@ -135,7 +139,7 @@ const ReportLost = () => {
         business_id: businessId,
         description: description,
         image: itemPhotoUrl,
-        status: "lost",
+        status: "found",
         bnf_user_id: bnfUserId,
       };
 
@@ -206,14 +210,19 @@ const ReportLost = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  if (!session) {
-    redirect("/account/login");
+  // Display loading message while waiting for the session
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (session?.userType == "user") {
+    redirect("/");
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <div className="flex flex-col w-full p-8 space-y-4 items-center bg-white sm:w-96 rounded-xl shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Report Lost Item</h1>
+        <h1 className="text-2xl font-bold mb-4">Report Found Item</h1>
         <form onSubmit={handleSubmit}>
           <textarea
             className="w-full px-4 py-2 rounded-lg mb-4"
@@ -227,14 +236,15 @@ const ReportLost = () => {
             placeholder="Date"
             required
           />
-          <select className="w-full px-4 py-2 rounded-lg mb-4" required>
+          {session.userType == "Administrator" && (<select className="w-full px-4 py-2 rounded-lg mb-4" required>
             <option value="">Select business</option>
             {businesses.map((business) => (
               <option key={business.id} value={business.id}>
                 {business.name}
               </option>
             ))}
-          </select>
+          </select>)}
+
           <select
             className="w-full px-4 py-2 rounded-lg mb-4"
             multiple

@@ -53,21 +53,30 @@ export default function Form() {
     router.refresh();
   };
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-2 mx-auto max-w-md mt-10"
-      >
-        <input
-          name="password"
-          className="border border-black  text-black"
-          type="password"
-          placeholder="password"
-        />
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+  <div className="flex flex-col w-full p-8 space-y-4 items-center bg-white sm:w-96 rounded-xl shadow-lg">
+    <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
+    <form
+      onSubmit={handleSubmit}
+    >
+      <input
+        name="password"
+        className="w-full px-4 py-2 rounded-lg mb-4"
+        type="password"
+        placeholder='New password'
+        required
+      />
 
-        <button type="submit">Change Password</button>
-      </form>
-      <DeleteUserButton userId={username} />
-    </div>
+      <button
+        className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white mb-4"
+        type="submit"
+      >
+        Change Password
+      </button>
+    </form>
+    <DeleteUserButton userId={username} className="w-full px-4 py-2 rounded-lg bg-red-600 text-white mb-4"/>
+  </div>
+</div>
+
   );
 }

@@ -9,5 +9,5 @@ export default function RegisterPage() {
     if (session?.userType != "Administrator") {
         redirect('/');
     }
-    return <div><div><Form /></div><div><Link href="/account/admin/approve_business">Approve Businesses</Link></div></div>
+    return <div><div><Form /></div></div>
 }
