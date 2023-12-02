@@ -9,6 +9,7 @@ export default function Page({ params }: { params: { itemID: string } }) {
   const [item, setItem] = useState(null);
   const [isClaimed, setIsClaimed] = useState(false);
   const [claim, setClaim] = useState(null);
+  const [businessLocation, setBusinessLocation] = useState(null);
 
   useEffect(() => {
     const fetchItemAndClaim = async () => {
@@ -28,6 +29,15 @@ export default function Page({ params }: { params: { itemID: string } }) {
             setIsClaimed(true);
           }
         }
+
+        // Fetch business location data
+        if (itemData.business_id) {
+          const businessLocationResponse = await fetch(`http://localhost:8000/business/business_location/${itemData.business_id}`);
+          const businessLocationData = await businessLocationResponse.json();
+          setBusinessLocation(businessLocationData);
+        }
+
+        console.log(itemData)
       } catch (error) {
         console.error("Error fetching item or claim:", error);
       }
@@ -144,56 +154,55 @@ export default function Page({ params }: { params: { itemID: string } }) {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <h1 className="text-2xl font-bold mt-4">{item.name}</h1>
-      <img
-        src={item.image}
-        alt={item.name}
-        className="w-96 h-96 object-cover"
-      />
-      <p className="text-lg">{item.description}</p>
-      {item.status === "lost" && (
-        <p className="text-lg">Lost on: {item.date}</p>
-      )}
-      {item.status === "found" && (
-        <p className="text-lg">Found on: {item.date}</p>
-      )}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">{item.name}</h1>
 
-      {item.status === "found" && !isClaimed && session?.userType === "user" && (
-        <button onClick={handleClaim} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Claim
-        </button>
-      )}
+        <img src={item.image} alt={item.name} className="mx-auto w-full max-w-md h-auto object-cover rounded-md mb-4" />
 
-      {isClaimed && claim?.bnf_user_id === session?.id && (
-        <p className="text-lg">Your claim is pending approval</p>
-      )}
+        <p className="text-lg text-gray-700 mb-2">{item.description}</p>
+        <p className="text-lg text-gray-600 mb-4">
+          {item.status === "lost" ? `Lost on: ${item.date}` : `Found on: ${item.date}`}
+        </p>
 
-      {isClaimed && claim?.bnf_user_id !== session?.id && (
-        <p className="text-lg">Pending to be claimed by another user</p>
-      )}
+        {businessLocation && (
+          <div className="mb-4">
+            <p className="text-lg font-semibold text-gray-800">{businessLocation.business_name}</p>
+            <p className="text-md text-gray-600">
+              {`${businessLocation.address}, ${businessLocation.city}, ${businessLocation.state}, ${businessLocation.zipcode}`}
+            </p>
+          </div>
+        )}
 
-      {session?.userType === "Business" &&
-        session?.id === item.business_id &&
-        item.status === "lost" && (
-          <button
-            onClick={handleSetFound}
-            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-          >
+        {item.status === "found" && !isClaimed && session?.userType === "user" && (
+          <button onClick={handleClaim} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Claim
+          </button>
+        )}
+
+        {isClaimed && (
+          <p className="text-lg font-semibold text-orange-500 mb-4">
+            {claim?.bnf_user_id === session?.id ? "Your claim is pending approval" : "Pending to be claimed by another user"}
+          </p>
+        )}
+
+        {session?.userType === "Business" && session?.id === item.business_id && item.status === "lost" && (
+          <button onClick={handleSetFound} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mb-4">
             Set Found
           </button>
         )}
 
-      {session?.userType === "Administrator" && item.status === "false" && (
-        <button
-          onClick={handleSetFound}
-          className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Set Found
-        </button>
-      )}
+        {session?.userType === "Administrator" && item.status === "false" && (
+          <button onClick={handleSetFound} className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Set Found
+          </button>
+        )}
+      </div>
 
       <Footer />
     </div>
+
+
+
   );
 }
