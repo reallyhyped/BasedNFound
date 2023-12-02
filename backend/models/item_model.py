@@ -1,5 +1,7 @@
+from typing import Optional
 from pydantic import BaseModel, constr
 from datetime import datetime
+
 
 class Item(BaseModel):
     id: int
@@ -10,7 +12,8 @@ class Item(BaseModel):
     description: str
     image: str
     status: str
-    bnf_user_id: int
+    bnf_user_id: Optional[int] = None
+
 
 class ItemIn(BaseModel):
     name: str
@@ -20,7 +23,8 @@ class ItemIn(BaseModel):
     description: str
     image: str
     status: str
-    bnf_user_id: int
+    bnf_user_id: Optional[int] = None
+
 
 class ItemUpdate(BaseModel):
     name: str
@@ -30,4 +34,4 @@ class ItemUpdate(BaseModel):
     description: str
     image: str
     status: str
-    bnf_user_id: int
+    bnf_user_id: Optional[int] = None
