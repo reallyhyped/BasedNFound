@@ -8,21 +8,32 @@ export default function Page({ params }: { params: { itemID: string } }) {
   const { data: session } = useSession();
   const [item, setItem] = useState(null);
   const [isClaimed, setIsClaimed] = useState(false);
+  const [claim, setClaim] = useState(null);
 
   useEffect(() => {
-    const fetchItem = async () => {
+    const fetchItemAndClaim = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/item/${params.itemID}`
-        );
-        const data = await response.json();
-        setItem(data);
+        // Fetch item data
+        const itemResponse = await fetch(`http://localhost:8000/item/${params.itemID}`);
+        const itemData = await itemResponse.json();
+        setItem(itemData);
+
+        // Fetch claim data
+        if (itemData.claim_id) {
+          const claimResponse = await fetch(`http://localhost:8000/claim/${itemData.claim_id}`);
+          const claimData = await claimResponse.json();
+          setClaim(claimData);
+
+          if (claimData.status.includes("Pending")) {
+            setIsClaimed(true);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching item:", error);
+        console.error("Error fetching item or claim:", error);
       }
     };
 
-    fetchItem();
+    fetchItemAndClaim();
   }, [params.itemID]);
 
   const handleClaim = async () => {
@@ -148,17 +159,19 @@ export default function Page({ params }: { params: { itemID: string } }) {
         <p className="text-lg">Found on: {item.date}</p>
       )}
 
-      {item.status === "found" &&
-        !isClaimed &&
-        session?.userType === "user" && (
-          <button
-            onClick={handleClaim}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Claim
-          </button>
-        )}
-      {isClaimed && <p className="text-lg">Claim pending to be approved!</p>}
+      {item.status === "found" && !isClaimed && session?.userType === "user" && (
+        <button onClick={handleClaim} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Claim
+        </button>
+      )}
+
+      {isClaimed && claim?.bnf_user_id === session?.id && (
+        <p className="text-lg">Your claim is pending approval</p>
+      )}
+
+      {isClaimed && claim?.bnf_user_id !== session?.id && (
+        <p className="text-lg">Pending to be claimed by another user</p>
+      )}
 
       {session?.userType === "Business" &&
         session?.id === item.business_id &&
