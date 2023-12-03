@@ -43,12 +43,9 @@ async def delete_category(category_id: int, database=Depends(get_database)):
     await database.execute(delete_contain_query, {"category_id": category_id})
 
     delete_category_query = "DELETE FROM category WHERE id = :category_id"
-    deleted_category = await database.execute(delete_category_query, {"category_id": category_id})
+    await database.execute(delete_category_query, {"category_id": category_id})
+    return {"category deleted"}
 
-    if deleted_category:
-        return {"category deleted"}
-    else:
-        raise HTTPException(status_code=404, detail="Category not found")
     
 @category_router.put("/{name}", response_model=Category)
 async def update_category(name: str, update_data: CategoryUpdate, database=Depends(get_database)):
