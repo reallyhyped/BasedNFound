@@ -86,16 +86,16 @@ const ListItem = ({ item, refetchItems }) => {
 
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg m-2">
-      <img className="w-full" src={item.image} alt={item.item_description} />
+    <div className="max-w-sm rounded overflow-hidden shadow-lg m-2 bg-white">
+      <img className="w-full h-48 object-cover" src={item.image} alt={item.item_description} />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{item.name}</div>
-        <p className="text-gray-700 text-base">{item.item_description}</p>
-        <p className="text-gray-700 text-base">{item.item_date}</p>
+        <p className="text-gray-700 text-base mb-1">{item.item_description}</p>
+        <p className="text-gray-500 text-sm mb-2">Date: {item.item_date}</p>
 
         {item.item_status === 'lost' && (
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-3 w-full"
             onClick={reportFound}
           >
             Report Found
@@ -103,27 +103,29 @@ const ListItem = ({ item, refetchItems }) => {
         )}
 
         {item.claim_status === 'Pending' && claimerInfo && (
-          <>
-            <p className="text-gray-700 text-base mb-2">Claimed by: {claimerInfo.first_name} {claimerInfo.last_name}</p>
-            <p className="text-gray-700 text-base mb-2">Username: {claimerInfo.username}</p>
+          <div className="bg-gray-100 p-3 rounded-lg mb-3">
+            <p className="text-gray-800 font-semibold mb-1">Pending Claim by:</p>
+            <p className="text-gray-700 text-sm mb-1">{claimerInfo.first_name} {claimerInfo.last_name}</p>
+            <p className="text-gray-600 text-sm mb-1">Username: {claimerInfo.username}</p>
 
-            <p className="text-gray-700 text-base mb-2">Email: {claimerInfo.email}</p>
-            <p className="text-gray-700 text-base mb-2">Phone: {claimerInfo.phone_number}</p>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mr-2"
-              onClick={approveClaim}
-            >
-              Approve Claim
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2"
-              onClick={rejectClaim}
-            >
-              Reject Claim
-            </button>
-          </>
+            <p className="text-gray-600 text-sm mb-1">Email: {claimerInfo.email}</p>
+            <p className="text-gray-600 text-sm mb-3">Phone: {claimerInfo.phone_number}</p>
+            <div className="flex space-x-2">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex-1"
+                onClick={approveClaim}
+              >
+                Approve Claim
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex-1"
+                onClick={rejectClaim}
+              >
+                Reject Claim
+              </button>
+            </div>
+          </div>
         )}
-
       </div>
     </div>
   );
