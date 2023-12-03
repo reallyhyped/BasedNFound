@@ -36,17 +36,16 @@ async def read_contain(name: str, database=Depends(get_database)):
         raise HTTPException(status_code=404, detail="Category not found")
 
 
-@category_router.delete("/{name}")
-async def delete_category(name: str, database=Depends(get_database)):
-    find_query = "SELECT * FROM category WHERE name = :name"
-    found_category = await database.fetch_one(find_query, {"name": name})
+@category_router.delete("/{category_id}")
+async def delete_category(category_id: int, database=Depends(get_database)):
+    # deleting associated entries in the contain table
+    delete_contain_query = "DELETE FROM contain WHERE category_id = :category_id"
+    await database.execute(delete_contain_query, {"category_id": category_id})
 
-    if found_category:
-        delete_query = "DELETE FROM category WHERE name = :name"
-        await database.execute(delete_query, {"name": name})
-        return {"category deleted"}
-    else:
-        raise HTTPException(status_code=404, detail="Category not found")
+    delete_category_query = "DELETE FROM category WHERE id = :category_id"
+    await database.execute(delete_category_query, {"category_id": category_id})
+    return {"category deleted"}
+
     
 @category_router.put("/{name}", response_model=Category)
 async def update_category(name: str, update_data: CategoryUpdate, database=Depends(get_database)):
