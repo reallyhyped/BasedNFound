@@ -41,16 +41,21 @@ const ApproveBusiness = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold mt-4">Business Review</h1>
-      <div className="flex flex-wrap justify-center items-start w-5/6">
-        <h2 className="w-full text-xl font-bold mt-4">There are {businesses.length} businesses need to review.</h2>
-        {businesses.map(business => (
-          <ReviewBusiness key={business.id} business={business} onApproved={() => removeBusiness(business.id)} />
-        ))}
+    <div className="flex flex-col items-center bg-gray-100 min-h-screen py-8">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Business Review</h1>
+      <div className="container mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          There are {businesses.length} businesses need to review.
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {businesses.map(business => (
+            <ReviewBusiness key={business.id} business={business} onApproved={() => removeBusiness(business.id)} />
+          ))}
+        </div>
       </div>
     </div>
   );
+
 };
 
 export default ApproveBusiness;
