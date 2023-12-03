@@ -11,7 +11,7 @@ const BusinessGraph = () => {
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
-        let url = 'http://localhost:8000/item/count_found_lost/';
+        let url = 'http://localhost:8000/log/daily_counts/';
         if (selectedBusiness) {
             url += selectedBusiness; // Append business ID if a specific business is selected
         }

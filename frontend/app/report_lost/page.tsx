@@ -105,7 +105,7 @@ const ReportLost = () => {
 
       // Making the POST request to the log endpoint
       const logData = {
-        date: date,
+        date: new Date().toISOString().slice(0, -1),
         description: "Item has been reported as lost", // Update this as needed
         claim_id: claimId,
       };
