@@ -36,7 +36,7 @@ const ReviewClaim = () => {
       description: "A silver watch with a black band.",
       image: "https://images.unsplash.com/photo-1557683316-973673baf926?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2FsbGV0fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
     }]; // Your array of found items
- 
+
 
   return (
     <div className="flex flex-col items-center">

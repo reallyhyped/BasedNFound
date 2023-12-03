@@ -1,9 +1,38 @@
+from models.itemclaim_model import ItemClaimResponse
 from models.item_model import Item, ItemIn, ItemUpdate
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from db import get_database
 
 item_router = APIRouter()
+
+
+@item_router.get("/item_claim/{item_id}", response_model=ItemClaimResponse)
+async def get_item_claim(item_id: int, database=Depends(get_database)):
+    query = """
+        SELECT 
+            i.id AS item_id, 
+            i.name, 
+            i.date AS item_date, 
+            i.claim_id, 
+            i.business_id, 
+            i.description AS item_description, 
+            i.image, 
+            i.status AS item_status, 
+            i.bnf_user_id AS item_bnf_user_id,
+            c.date AS claim_date, 
+            c.status AS claim_status, 
+            c.bnf_user_id AS claim_bnf_user_id, 
+            c.description AS claim_description
+        FROM item i
+        LEFT JOIN claim c ON i.claim_id = c.id
+        WHERE i.id = :item_id
+    """
+    result = await database.fetch_one(query, {"item_id": item_id})
+    if result:
+        return result
+    else:
+        raise HTTPException(status_code=404, detail="Item or claim not found")
 
 
 @item_router.get("/count_found_lost/", response_model=List[dict])

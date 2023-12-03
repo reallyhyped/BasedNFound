@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from db import connect_to_db, disconnect_from_db, get_database
 
 
-
 from routes.user import router as UserRouter
 from routes.business import router as BusinessRouter
 from routes.item import item_router as ItemRouter
@@ -20,6 +19,7 @@ from routes.contain import contain_router as ContainRouter
 from routes.log import log_router as LogRouter
 from routes.location import location_router as LocationRouter
 from routes.category import category_router as CategoryRouter
+from routes.item_claim import item_claim_router as ItemClaimRouter
 
 load_dotenv()
 
@@ -38,9 +38,7 @@ notes = sqlalchemy.Table(
 )
 
 
-engine = sqlalchemy.create_engine(
-    DATABASE_URL
-)
+engine = sqlalchemy.create_engine(DATABASE_URL)
 # metadata.create_all(engine)
 
 
@@ -54,13 +52,10 @@ class Note(BaseModel):
     text: str
     boolean: bool
 
+
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:3000"
-]
+origins = ["http://localhost", "http://localhost:8080", "http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -70,6 +65,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup():
     await connect_to_db()
@@ -78,6 +74,7 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await disconnect_from_db()
+
 
 app.include_router(UserRouter, tags=["User"], prefix="/user")
 
@@ -89,12 +86,14 @@ async def read_businesses():
     """
     return await database.fetch_all(query)
 
+
 app.include_router(BusinessRouter, tags=["Business"], prefix="/business")
 app.include_router(ItemRouter, tags=["Item"], prefix="/item")
 app.include_router(AdminRouter, tags=["Admin"], prefix="/admin")
-app.include_router(ClaimRouter, tags=["Claim"], prefix='/claim')
-app.include_router(ManageRouter, tags=["Manage"], prefix='/manage')
-app.include_router(ContainRouter, tags=["Contain"], prefix='/contain')
-app.include_router(LogRouter, tags=["Log"], prefix='/log')
-app.include_router(LocationRouter, tags=["Location"], prefix='/location')
-app.include_router(CategoryRouter, tags=["Category"], prefix='/category')
+app.include_router(ClaimRouter, tags=["Claim"], prefix="/claim")
+app.include_router(ManageRouter, tags=["Manage"], prefix="/manage")
+app.include_router(ContainRouter, tags=["Contain"], prefix="/contain")
+app.include_router(LogRouter, tags=["Log"], prefix="/log")
+app.include_router(LocationRouter, tags=["Location"], prefix="/location")
+app.include_router(CategoryRouter, tags=["Category"], prefix="/category")
+app.include_router(ItemClaimRouter, tags=["ItemClaim"], prefix="/item_claim")
