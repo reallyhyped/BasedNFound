@@ -37,11 +37,15 @@ const BusinessGraph = () => {
                     }, {
                         label: 'Lost',
                         data: chartData.map(item => item.lost),
-                        backgroundColor: 'rgba(255,99,132,1)',
+                        backgroundColor: 'rgba(61,133,198,1)',
                     }, {
                         label: 'Claimed',
                         data: chartData.map(item => item.claim),
                         backgroundColor: 'rgba(255,220,83,1)',
+                    }, {
+                        label: 'Rejected',
+                        data: chartData.map(item => item.reject),
+                        backgroundColor: 'rgba(255,99,132,1)',
                     }]
                 },
                 options: {
@@ -70,8 +74,10 @@ const BusinessGraph = () => {
             </div>
             <div className="mt-4 text-center">
                 <p><span className="text-green-600 font-bold">Green bar: </span>Number of items found</p>
-                <p><span className="text-red-600 font-bold">Red bar: </span>Number of items lost</p>
+                <p><span className="text-blue-600 font-bold">Blue bar: </span>Number of items lost</p>
                 <p><span className="text-yellow-300 font-bold">Yellow bar: </span>Number of items claimed</p>
+                <p><span className="text-red-600 font-bold">Red bar: </span>Number of claims rejected</p>
+
             </div>
         </div>
     );

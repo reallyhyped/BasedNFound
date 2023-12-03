@@ -6,3 +6,4 @@ class LogCount(BaseModel):
     found: int
     lost: int
     claim: int
+    reject: int

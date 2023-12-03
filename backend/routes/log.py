@@ -13,7 +13,9 @@ async def daily_log_counts(database=Depends(get_database)):
         SELECT date::date, 
                COUNT(*) FILTER (WHERE description = 'Item has been reported as lost') AS lost,
                COUNT(*) FILTER (WHERE description = 'Item marked as found by the business') AS found,
-               COUNT(*) FILTER (WHERE description LIKE 'Item has been claimed by:%') AS claim
+               COUNT(*) FILTER (WHERE description LIKE 'Item has been claimed by:%') AS claim,
+               COUNT(*) FILTER (WHERE description LIKE 'Rejected claim from:%') AS reject
+               
         FROM log
         GROUP BY date::date
         ORDER BY date::date
@@ -25,6 +27,7 @@ async def daily_log_counts(database=Depends(get_database)):
             "found": result["found"],
             "lost": result["lost"],
             "claim": result["claim"],
+            "reject": result["reject"],
         }
         for result in results
     ]
@@ -36,7 +39,9 @@ async def daily_log_counts_business(business_id: int, database=Depends(get_datab
         SELECT log.date::date, 
                COUNT(*) FILTER (WHERE log.description = 'Item has been reported as lost') AS lost,
                COUNT(*) FILTER (WHERE log.description = 'Item marked as found by the business') AS found,
-               COUNT(*) FILTER (WHERE log.description LIKE 'Item has been claimed by:%') AS claim
+               COUNT(*) FILTER (WHERE log.description LIKE 'Item has been claimed by:%') AS claim,
+               COUNT(*) FILTER (WHERE log.description LIKE 'Rejected claim from:%') AS reject
+
         FROM log
         JOIN item ON log.claim_id = item.claim_id
         WHERE item.business_id = :business_id
@@ -50,6 +55,7 @@ async def daily_log_counts_business(business_id: int, database=Depends(get_datab
             "found": result["found"],
             "lost": result["lost"],
             "claim": result["claim"],
+            "reject": result["reject"],
         }
         for result in results
     ]
