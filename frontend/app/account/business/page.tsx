@@ -41,14 +41,13 @@ const Business = () => {
       })
       .catch(err => setError(err.message));
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
   if (status === 'loading') return <div>Loading...</div>;
-
+  if (loading) return <p>Loading...</p>;
   if (session?.userType != "Business") {
     redirect('/')
   }
+  if (error) return <p>Error: {error}</p>;
+
 
   return (
     <div className="flex flex-col items-center">
