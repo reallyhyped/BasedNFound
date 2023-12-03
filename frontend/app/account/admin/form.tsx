@@ -82,6 +82,8 @@ export default function Form() {
           </button>
         </form>
         <button className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white text-center mb-4"><Link href="/account/admin/approve_business">Approve Businesses</Link></button>
+        <button className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white text-center mb-4"><Link href="/account/business">Approve Claims and Report Found as a Business</Link></button>
+
       </div>
     </div>
   );

@@ -89,9 +89,7 @@ async def get_item_claims_by_business(business_id: int, database=Depends(get_dat
     if results:
         return results
     else:
-        raise HTTPException(
-            status_code=404, detail="No items or claims found for the given business ID"
-        )
+        return []
 
 
 @item_claim_router.put("/approve_claim/{item_id}")
