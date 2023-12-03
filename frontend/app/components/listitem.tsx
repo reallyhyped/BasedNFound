@@ -1,10 +1,22 @@
 "use client"
 
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const ListItem = ({ item, refetchItems }) => {
 
   const [claimerInfo, setClaimerInfo] = useState(null);
+  const { data: session, status } = useSession();
+  const [businessInfo, setBusinessInfo] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/business/business_location/${item.business_id}`)
+      .then(response => response.json())
+      .then(data => {
+        setBusinessInfo(data);
+      })
+      .catch(err => console.error('Error fetching business info:', err));
+  }, []);
 
   useEffect(() => {
     if (item.claim_status === 'Pending') {
@@ -84,6 +96,7 @@ const ListItem = ({ item, refetchItems }) => {
     }
   };
 
+  if (status === 'loading') return <div>Loading...</div>;
 
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg m-2 bg-white">
@@ -92,6 +105,10 @@ const ListItem = ({ item, refetchItems }) => {
         <div className="font-bold text-xl mb-2">{item.name}</div>
         <p className="text-gray-700 text-base mb-1">{item.item_description}</p>
         <p className="text-gray-500 text-sm mb-2">Date: {item.item_date}</p>
+        {session?.userType === 'Administrator' && businessInfo && (
+          <><p className="text-gray-500 text-sm mb-2">Business: {businessInfo.business_name}</p><p className="text-gray-500 text-sm mb-2">Address: {`${businessInfo.address}, ${businessInfo.city} ${businessInfo.state}, ${businessInfo.zipcode}`}</p></>
+
+        )}
 
         {item.item_status === 'lost' && (
           <button
