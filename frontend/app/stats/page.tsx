@@ -66,21 +66,22 @@ const BusinessGraph = () => {
     };
 
     return (
-        <div className="flex flex-col items-center">
-            <DropdownMenu onBusinessSelect={handleBusinessSelect} />
-            <h1 className="text-2xl font-bold mt-4">Business Lost/Found Graph</h1>
-            <div className="flex flex-wrap justify-center items-start w-5/6">
+        <div className="flex flex-col items-center p-4 bg-gray-100 rounded-lg shadow-md">
+            <DropdownMenu onBusinessSelect={handleBusinessSelect} className="mb-6" />
+            <h1 className="text-3xl font-bold text-gray-800 mb-8">Business Lost/Found Graph</h1>
+            <div className="bg-white p-4 rounded-lg shadow-sm w-full md:w-3/4 lg:w-5/6">
                 <canvas ref={chartRef} />
             </div>
-            <div className="mt-4 text-center">
-                <p><span className="text-green-600 font-bold">Green bar: </span>Number of items found</p>
-                <p><span className="text-blue-600 font-bold">Blue bar: </span>Number of items lost</p>
-                <p><span className="text-yellow-300 font-bold">Yellow bar: </span>Number of items claimed</p>
-                <p><span className="text-red-600 font-bold">Red bar: </span>Number of claims rejected</p>
-
+            <div className="mt-8 text-center">
+                <p className="text-sm"><span className="text-green-600 font-semibold">Green bar: </span>Number of items found</p>
+                <p className="text-sm"><span className="text-blue-600 font-semibold">Blue bar: </span>Number of items lost</p>
+                <p className="text-sm"><span className="text-yellow-500 font-semibold">Yellow bar: </span>Number of items claimed</p>
+                <p className="text-sm"><span className="text-red-600 font-semibold">Red bar: </span>Number of claims rejected</p>
             </div>
         </div>
     );
+
+
 };
 
 export default BusinessGraph;

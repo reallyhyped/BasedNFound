@@ -11,6 +11,8 @@ const ReportLost = () => {
   const [businesses, setBusinesses] = useState([]); // State to store businesses
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const today = new Date().toISOString().split('T')[0];
+
 
   useEffect(() => {
     // Fetch categories
@@ -225,6 +227,7 @@ const ReportLost = () => {
             className="w-full px-4 py-2 rounded-lg mb-4"
             type="date"
             placeholder="Date"
+            max={today} // Set the max attribute to today's date
             required
           />
           <select className="w-full px-4 py-2 rounded-lg mb-4" required>
