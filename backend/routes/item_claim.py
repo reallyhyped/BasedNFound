@@ -175,8 +175,8 @@ async def reject_claim(item_id: int, database=Depends(get_database)):
     if not bnf_user:
         raise HTTPException(status_code=404, detail="Beneficiary user not found")
 
-    # Step 4: Update the item's status back to 'lost'
-    update_item_query = "UPDATE item SET status = 'lost' WHERE id = :item_id"
+    # Step 4: Update the item's status back to 'found'
+    update_item_query = "UPDATE item SET status = 'found' WHERE id = :item_id"
     await database.execute(update_item_query, {"item_id": item_id})
 
     # Step 5: Reset the claim's status and bnf_user_id
@@ -203,7 +203,7 @@ async def reject_claim(item_id: int, database=Depends(get_database)):
     created_log = await database.fetch_one(insert_log_query, log_values)
 
     return {
-        "item_update": "Item status reset to lost",
+        "item_update": "Item status reset to found",
         "claim_update": "Claim status reset and bnf_user_id cleared",
         "log_entry": created_log,
     }
