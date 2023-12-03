@@ -26,19 +26,24 @@ const CategoriesPage: React.FC = () => {
     setNewCategory('');
   };
 
-  const handleRemoveCategory = (index: number) => {
+  const handleRemoveCategory = async (index: number) => {
     const categoryToRemove = categories[index];
 
-    
-    fetch(`/api/categories/${categoryToRemove}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        const updatedCategories = categories.filter((_, i) => i !== index);
+    try {
+        await fetch(`http://localhost:8000/category/${categoryToRemove}`, {
+            method: 'DELETE',
+        });
+
+        // Fetch updated categories after deletion
+        const updatedCategoriesResponse = await fetch('http://localhost:8000/category/');
+        const updatedCategories = await updatedCategoriesResponse.json();
+
+        // Update the state with the updated categories
         setCategories(updatedCategories);
-      })
-      .catch(error => console.error('Error removing category:', error));
-  };
+    } catch (error) {
+        console.error('Error removing category:', error);
+    }
+};
 
   return (
     <div>
